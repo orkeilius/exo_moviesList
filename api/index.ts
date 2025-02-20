@@ -37,3 +37,17 @@ export async function getUpComingMovies(page) {
     return response.data;
 }
 
+export async function getMovieInTheatre(page) {
+    const response = await api.get('/3/movie/now_playing', {
+        params: {
+            page: page,
+        },
+        headers: {
+            accept: 'application/json',
+            Authorization: `${process.env.EXPO_PUBLIC_TMDB_API_TOKEN}`,
+        }
+    }
+    );
+    return response.data;
+}
+

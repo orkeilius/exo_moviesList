@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, ScrollView, View } from "react-native";
 import { Text, DataTable } from "react-native-paper";
 import MovieCard from "../cards/MovieCard";
-import { getFeaturedMovie, getUpComingMovies } from "../api";
+import { getFeaturedMovie, getMovieInTheatre, getUpComingMovies } from "../api";
 
 interface Movie {
     id: number;
@@ -11,9 +11,17 @@ interface Movie {
 }
 
 export default function HomeScreen() {
-    const [movies, setMovies] = useState<Movie[]>([]);
-    const [page, setPage] = useState(1);
-    const [numberOfPages, setNumberOfPages] = useState(0);
+
+    const [moviesInTheatre, setMoviesInTheatre] = useState<Movie[]>([]);
+    const [moviesInTheatrePage, setMoviesInTheatrePage] = useState(1);
+    const [moviesInTheatreNumberOfPages, setMoviesInTheatreNumberOfPages] = useState(0);
+
+    const [upComingMovies, setUpComingMovies] = useState<Movie[]>([]);
+    const [upComingMoviesPage, setUpComingMoviesPagePage] = useState(1);
+    const [upComingMoviesNumberOfPages, setUpComingMoviesNumberOfPages] = useState(0);
+
+
+
     const imageUrl = "https://image.tmdb.org/t/p/w500/";
     const [featuredMovie, setFeaturedMovie] = useState<Movie>(null);
 
@@ -31,13 +39,22 @@ export default function HomeScreen() {
 
 
     useEffect(() => {
-        getUpComingMovies(page)
+        getUpComingMovies(upComingMoviesPage)
             .then((res) => {
-                setMovies(res.results);
-                setNumberOfPages(res.total_pages);
+                setUpComingMovies(res.results);
+                setUpComingMoviesNumberOfPages(res.total_pages);
             })
-    }, [page]);
+    }, [upComingMoviesPage]);
 
+
+    useEffect(() => {
+        getMovieInTheatre(moviesInTheatrePage)
+            .then((res) => {
+                setMoviesInTheatre(res.results);
+                setMoviesInTheatreNumberOfPages(res.total_pages);
+            })
+    }
+        , [moviesInTheatrePage]);
 
     return (
         <ScrollView>
@@ -61,7 +78,7 @@ export default function HomeScreen() {
                     Coming soon
                 </Text>
                 <FlatList
-                    data={movies}
+                    data={upComingMovies}
                     renderItem={({ item }) => (
                         <MovieCard
                             title={item.title}
@@ -75,13 +92,43 @@ export default function HomeScreen() {
 
                 <DataTable>
                     <DataTable.Pagination
-                        page={page - 1}
-                        numberOfPages={numberOfPages}
-                        onPageChange={(newPage) => setPage(newPage + 1)}
+                        page={upComingMoviesPage - 1}
+                        numberOfPages={upComingMoviesNumberOfPages}
+                        onPageChange={(newPage) => setUpComingMoviesPagePage(newPage + 1)}
                         showFastPaginationControls
                     />
                 </DataTable>
             </View>
+
+
+            <View>
+                <Text style={{ fontSize: 20, fontWeight: "bold", paddingLeft: 10 }}>
+                    In theatres
+                </Text>
+                <FlatList
+                    data={moviesInTheatre}
+                    renderItem={({ item }) => (
+                        <MovieCard
+                            title={item.title}
+                            imageUrl={`${imageUrl}${item.poster_path}`}
+                            key={item.id}
+                        />
+                    )}
+                    horizontal
+                />
+
+
+                <DataTable>
+                    <DataTable.Pagination
+                        page={moviesInTheatrePage - 1}
+                        numberOfPages={moviesInTheatreNumberOfPages}
+                        onPageChange={(newPage) => setMoviesInTheatrePage(newPage + 1)}
+                        showFastPaginationControls
+                    />
+                </DataTable>
+            </View>
+
+            
         </ScrollView>
     );
 
