@@ -1,4 +1,5 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import HomeScreen from "./screens/HomeScreen";
 import SearchScreen from "./screens/SearchScreen";
@@ -6,18 +7,21 @@ import UserScreen from "./screens/UserScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {SessionContextProvider} from "./context/SessionContextProvider";
 
 
 export default function App() {
 
   return (
     <NavigationContainer>
-      <SafeAreaView style={{ flex: 1, paddingTop: 30 }}>
-        <PaperProvider>
-          <BottomNav />
-        </PaperProvider>
-      </SafeAreaView>
 
+        <SessionContextProvider>
+          <SafeAreaView style={{ flex: 1, paddingTop: 30 }} >
+            <PaperProvider>
+              <BottomNav />
+            </PaperProvider>
+          </SafeAreaView>
+        </SessionContextProvider>
     </NavigationContainer>
 
 
