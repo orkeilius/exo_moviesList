@@ -1,11 +1,11 @@
-import {useContext, useEffect, useState} from "react";
-import {SessionContext, SessionContextType} from "../../context/SessionContextProvider";
-import {createSession, openLoginPage} from "../../utils/AuthRequest";
-import {View} from "react-native";
-import {Button} from "react-native-paper";
+import { useContext, useEffect, useState } from "react";
+import { SessionContext, SessionContextType } from "../../context/SessionContextProvider";
+import { createSession, openLoginPage } from "../../utils/AuthRequest";
+import { View } from "react-native";
+import { Button } from "react-native-paper";
 
 export default function Login() {
-    const session:SessionContextType = useContext(SessionContext);
+    const session: SessionContextType = useContext(SessionContext);
     const [requestToken, setRequestToken] = useState<string>('');
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export default function Login() {
 
     const checkLogin = () => {
         createSession(requestToken).then(e => {
-            console.log("session:",e)
+            console.log("session:", e)
             session.setSessionId(e)
         })
     }

@@ -2,7 +2,7 @@ import {Linking} from "react-native";
 import axios, {AxiosResponse} from "axios";
 
 
-const token = "Bearer "+ process.env.EXPO_PUBLIC_TMDB_API_KEY;
+const token = "Bearer "+ process.env.EXPO_PUBLIC_TMDB_API_TOKEN;
 const default_headers =   {headers:{
         accept: 'application/json',
         "content-type": 'application/json',

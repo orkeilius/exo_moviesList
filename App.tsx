@@ -1,3 +1,4 @@
+
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import HomeScreen from "./screens/HomeScreen";
@@ -13,6 +14,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
+
         <SessionContextProvider>
           <SafeAreaView style={{ flex: 1, paddingTop: 30 }} >
             <PaperProvider>
@@ -30,29 +32,29 @@ function BottomNav() {
   const Tab = createMaterialBottomTabNavigator();
 
   return (
-    <Tab.Navigator initialRouteName={"Home"}>
+    <Tab.Navigator initialRouteName={"Home"} >
       <Tab.Screen name="Home" component={HomeScreen} options={{
-      tabBarIcon: ({ color }) => (
-        <View style={styles.Icon}>
-          <Icon name="home" color={color} size={26} />
-        </View>
-      ),
+        tabBarIcon: ({ color }) => (
+          <View style={styles.Icon}>
+            <Icon name="home" color={color} size={26} />
+          </View>
+        ),
       }} />
-      <Tab.Screen name="Search" component={SearchScreen} 
-      options={{
-      tabBarIcon: ({ color }) => (
-        <View style={styles.Icon}>
-        <Icon name="magnify" color={color} size={26} />
-        </View>
-      ),
-      }}/>
+      <Tab.Screen name="Search" component={SearchScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <View style={styles.Icon}>
+              <Icon name="magnify" color={color} size={26} />
+            </View>
+          ),
+        }} />
       <Tab.Screen name="UserPage" component={UserScreen} options={{
         tabBarIcon: ({ color }) => (
-        <View style={styles.Icon}>
-          <Icon name="account" color={color} size={26} />
-        </View>
+          <View style={styles.Icon}>
+            <Icon name="account" color={color} size={26} />
+          </View>
         ),
-      }}/>
+      }} />
     </Tab.Navigator>
   )
 }
