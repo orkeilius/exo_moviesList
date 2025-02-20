@@ -21,20 +21,16 @@ export async function getFeaturedMovie() {
  * Fetches a list of movies released within a specified date range.
  *
  * @param {number} page - The page number to retrieve.
- * @param {string} startDate - The start date for the movie release date range (format: YYYY-MM-DD).
- * @param {string} endDate - The end date for the movie release date range (format: YYYY-MM-DD).
  * @returns {Promise<any>} A promise that resolves to the response data containing the list of movies.
  */
-export async function getMonthMovies(page, startDate, endDate) {
-    const response = await api.get('/3/discover/movie', {
+export async function getUpComingMovies(page) {
+    const response = await api.get('/3/movie/upcoming', {
         params: {
-            page,
-            "primary_release_date.gte": startDate,
-            "primary_release_date.lte": endDate,
+            page: page,
         },
         headers: {
             accept: 'application/json',
-            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+            Authorization: `${process.env.EXPO_PUBLIC_TMDB_API_TOKEN}`,
         }
     }
     );

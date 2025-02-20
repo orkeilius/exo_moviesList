@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, ScrollView, View } from "react-native";
 import { Text, DataTable } from "react-native-paper";
 import MovieCard from "../cards/MovieCard";
-import { getFeaturedMovie, getMonthMovies } from "../api";
+import { getFeaturedMovie, getUpComingMovies } from "../api";
 
 interface Movie {
     id: number;
@@ -18,14 +18,7 @@ export default function HomeScreen() {
     const [featuredMovie, setFeaturedMovie] = useState<Movie>(null);
 
 
-    // Calculate start and end dates for the current month
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1;
-    const monthStr = month.toString().padStart(2, "0");
-    const startDate = `${year}-${monthStr}-01`;
-    const lastDay = new Date(year, month, 0).getDate();
-    const endDate = `${year}-${monthStr}-${lastDay.toString().padStart(2, "0")}`;
+
 
 
     useEffect(() => {
@@ -38,12 +31,13 @@ export default function HomeScreen() {
 
 
     useEffect(() => {
-        getMonthMovies(page, startDate, endDate)
+        getUpComingMovies(page)
             .then((res) => {
                 setMovies(res.results);
                 setNumberOfPages(res.total_pages);
             })
-    }, [page, startDate, endDate]);
+    }, [page]);
+
 
     return (
         <ScrollView>
