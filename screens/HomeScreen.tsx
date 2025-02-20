@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, ScrollView, View } from "react-native";
 import { Text, DataTable } from "react-native-paper";
-import MovieCard from "../cards/MovieCard";
+import MovieCard from "../components/cards/MovieCard";
 import { getFeaturedMovie, getMovieInTheatre, getUpComingMovies } from "../utils/MovieRequest";
 
 interface Movie {
