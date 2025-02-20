@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, ScrollView, View } from "react-native";
 import { Text, DataTable } from "react-native-paper";
 import MovieCard from "../cards/MovieCard";
-import { getFeaturedMovie, getMovieInTheatre, getUpComingMovies } from "../api";
+import { getFeaturedMovie, getMovieInTheatre, getUpComingMovies } from "../utils/MovieRequest";
 
 interface Movie {
     id: number;
@@ -20,14 +20,8 @@ export default function HomeScreen() {
     const [upComingMoviesPage, setUpComingMoviesPagePage] = useState(1);
     const [upComingMoviesNumberOfPages, setUpComingMoviesNumberOfPages] = useState(0);
 
-
-
     const imageUrl = "https://image.tmdb.org/t/p/w500/";
     const [featuredMovie, setFeaturedMovie] = useState<Movie>(null);
-
-
-
-
 
     useEffect(() => {
         getFeaturedMovie()
