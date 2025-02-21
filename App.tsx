@@ -32,8 +32,7 @@ const Stack = createStackNavigator();
 function RootStack() {
 
     return (
-        // @ts-ignore
-        <Stack.Navigator initialRouteName="Nav">
+        <Stack.Navigator initialRouteName="Nav" id={null}>
             <Stack.Screen name="Nav" component={BottomNav} />
             <Stack.Screen name="MovieScreen">
                 {(props: any) => <MovieScreen {...props}  />}
