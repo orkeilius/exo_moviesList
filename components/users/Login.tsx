@@ -25,10 +25,14 @@ export default function Login() {
     }
 
     return (
-        <View>
-            <Button onPress={() => openLoginPage().then(e => setRequestToken(e))}>login</Button>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            <Button style={{ padding: 10 }} mode="contained"
+                onPress={() => openLoginPage().then(e => setRequestToken(e))}
+            >
+                login
+            </Button>
             {requestToken != "" &&
-                <Button onPress={() => checkLogin()}>CheckConnection</Button>
+            <Button style={{margin:5}} onPress={() => checkLogin()}>Check connection ?</Button>
             }
         </View>
     )
