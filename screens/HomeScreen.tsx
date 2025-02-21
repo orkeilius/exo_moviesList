@@ -1,13 +1,12 @@
-import React, {useContext, useEffect, useState} from "react";
-import { FlatList, ScrollView, View } from "react-native";
-import { Text, DataTable } from "react-native-paper";
+import React, {useCallback, useContext, useEffect, useState} from "react";
+import {FlatList, ScrollView, View} from "react-native";
+import {Text, DataTable} from "react-native-paper";
 import MovieCard from "../components/cards/MovieCard";
 
 import {getFeaturedMovie, getMovieInTheatre, getUpComingMovies} from "../utils/MovieRequest";
 import {Movie} from "../types/movie";
 import {SessionContext} from "../context/SessionContextProvider";
-
-
+import {useFocusEffect} from "@react-navigation/native";
 
 
 export default function HomeScreen() {
@@ -32,31 +31,51 @@ export default function HomeScreen() {
 
 
     useEffect(() => {
-        getUpComingMovies(upComingMoviesPage,session.sessionId)
+        getUpComingMovies(upComingMoviesPage, session.sessionId)
             .then(res => {
                 setUpComingMovies(res.results);
                 setUpComingMoviesNumberOfPages(res.total_pages);
             })
-    }, [upComingMoviesPage,session.sessionId]);
+    }, [upComingMoviesPage, session.sessionId]);
 
 
     useEffect(() => {
-        getMovieInTheatre(moviesInTheatrePage,session.sessionId)
-            .then(res => {
-                setMoviesInTheatre(res.results);
-                setMoviesInTheatreNumberOfPages(res.total_pages);
-            })
-    }
-        , [moviesInTheatrePage,session.sessionId]);
+            getMovieInTheatre(moviesInTheatrePage, session.sessionId)
+                .then(res => {
+                    setMoviesInTheatre(res.results);
+                    setMoviesInTheatreNumberOfPages(res.total_pages);
+                })
+        }
+        , [moviesInTheatrePage, session.sessionId]);
+
+    useFocusEffect(
+        useCallback(() => {
+            getFeaturedMovie()
+                .then(res => {
+                    setFeaturedMovie(res);
+                })
+                .catch(console.error);
+            getUpComingMovies(upComingMoviesPage, session.sessionId)
+                .then(res => {
+                    setUpComingMovies(res.results);
+                    setUpComingMoviesNumberOfPages(res.total_pages);
+                })
+            getMovieInTheatre(moviesInTheatrePage, session.sessionId)
+                .then(res => {
+                    setMoviesInTheatre(res.results);
+                    setMoviesInTheatreNumberOfPages(res.total_pages);
+                })
+        },[])
+    )
 
     return (
         <ScrollView>
             <View>
-                <Text style={{ fontSize: 20, fontWeight: "bold", paddingLeft: 10 }}>
+                <Text style={{fontSize: 20, fontWeight: "bold", paddingLeft: 10}}>
                     Featured
                 </Text>
                 {featuredMovie && (
-                    <View style={{ alignItems: "center" }}>
+                    <View style={{alignItems: "center"}}>
                         <MovieCard
                             movie={featuredMovie}
                         />
@@ -65,12 +84,12 @@ export default function HomeScreen() {
             </View>
 
             <View>
-                <Text style={{ fontSize: 20, fontWeight: "bold", paddingLeft: 10 }}>
+                <Text style={{fontSize: 20, fontWeight: "bold", paddingLeft: 10}}>
                     Coming soon
                 </Text>
                 <FlatList
                     data={upComingMovies}
-                    renderItem={({ item }) => (
+                    renderItem={({item}) => (
                         <MovieCard
                             movie={item}
                             key={item.id}
@@ -92,12 +111,12 @@ export default function HomeScreen() {
 
 
             <View>
-                <Text style={{ fontSize: 20, fontWeight: "bold", paddingLeft: 10 }}>
+                <Text style={{fontSize: 20, fontWeight: "bold", paddingLeft: 10}}>
                     In theatres
                 </Text>
                 <FlatList
                     data={moviesInTheatre}
-                    renderItem={({ item }) => (
+                    renderItem={({item}) => (
                         <MovieCard
                             movie={item}
                             key={item.id}
