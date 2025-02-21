@@ -7,6 +7,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {SessionContextProvider} from "./context/SessionContextProvider";
+import {createStackNavigator} from "@react-navigation/stack";
+import MovieScreen from "./screens/MovieScreen";
 
 
 export default function App() {
@@ -16,7 +18,7 @@ export default function App() {
         <SessionContextProvider>
           <SafeAreaView style={{ flex: 1, paddingTop: 30 }} >
             <PaperProvider>
-              <BottomNav />
+              <RootStack />
             </PaperProvider>
           </SafeAreaView>
         </SessionContextProvider>
@@ -25,6 +27,21 @@ export default function App() {
 
   );
 }
+const Stack = createStackNavigator();
+function RootStack() {
+
+    return (
+        // @ts-ignore
+        <Stack.Navigator initialRouteName="Nav">
+            <Stack.Screen name="Nav" component={BottomNav} />
+            <Stack.Screen name="MovieScreen">
+                {(props: any) => <MovieScreen {...props}  />}
+            </Stack.Screen>
+        </Stack.Navigator>
+    );
+}
+
+
 
 function BottomNav() {
   const Tab = createMaterialBottomTabNavigator();
