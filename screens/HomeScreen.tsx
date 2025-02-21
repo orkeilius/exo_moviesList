@@ -37,7 +37,7 @@ export default function HomeScreen() {
                 setUpComingMovies(res.results);
                 setUpComingMoviesNumberOfPages(res.total_pages);
             })
-    }, [upComingMoviesPage]);
+    }, [upComingMoviesPage,session.sessionId]);
 
 
     useEffect(() => {
@@ -47,7 +47,7 @@ export default function HomeScreen() {
                 setMoviesInTheatreNumberOfPages(res.total_pages);
             })
     }
-        , [moviesInTheatrePage]);
+        , [moviesInTheatrePage,session.sessionId]);
 
     return (
         <ScrollView>
