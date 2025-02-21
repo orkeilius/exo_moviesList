@@ -2,9 +2,11 @@ import React, {useContext, useEffect, useState} from "react";
 import { FlatList, ScrollView, View } from "react-native";
 import { Text, DataTable } from "react-native-paper";
 import MovieCard from "../components/cards/MovieCard";
+
 import {getFeaturedMovie, getMovieInTheatre, getUpComingMovies} from "../utils/MovieRequest";
 import {Movie} from "../types/movie";
 import {SessionContext} from "../context/SessionContextProvider";
+
 
 
 
@@ -115,7 +117,7 @@ export default function HomeScreen() {
                 </DataTable>
             </View>
 
-            
+
         </ScrollView>
     );
 
