@@ -84,8 +84,15 @@ export async function getMovieDetails(movieId:number) {
     const response = await api.get(`/3/movie/${movieId}`, {
         ...defaultHeaders,
     });
-    
+
     return response.data as MovieDetails;
+}
+export async function getActorsMovie(movieId:number) {
+    const response = await api.get(`/3/movie/${movieId}/credits`, {
+        ...defaultHeaders,
+    });
+
+    return response.data.cast;
 }
 
 
