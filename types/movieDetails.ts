@@ -46,13 +46,11 @@ export type MovieDetails = {
     vote_average: number;
     vote_count: number;
 
-   
     // info from AccountStates
-    userInformation :{
-        favorite?: boolean,
-        watchlist?: boolean
-        rated?: {
-            value: number
-        }
+
+    favorite?: boolean,
+    watchlist?: boolean
+    rated?: {
+        value: number
     }
 };

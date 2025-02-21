@@ -80,12 +80,18 @@ export async function getMovieInTheatre(page,sessionId:string) {
 }
 
 
-export async function getMovieDetails(movieId:number) {
+export async function getMovieDetails(movieId:number,session_id:string) {
     const response = await api.get(`/3/movie/${movieId}`, {
         ...defaultHeaders,
     });
+    const responseState = await api.get(`/3/movie/${movieId}/account_states`, {
+        ...defaultHeaders,
+        params: {
+            session_id
+        }
+    })
 
-    return response.data as MovieDetails;
+    return {...response.data,...responseState.data} as MovieDetails;
 }
 
 export async function getActorsMovie(movieId:number) {
