@@ -3,6 +3,13 @@ import axios from 'axios';
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org',
 });
+const default_headers =   {headers:{
+        accept: 'application/json',
+        "content-type": 'application/json',
+        Authorization: "Bearer "+ process.env.EXPO_PUBLIC_TMDB_API_TOKEN
+    }};
+
+
 
 /**
  * Retrieves the featured movie from the API.
@@ -25,28 +32,22 @@ export async function getFeaturedMovie() {
  */
 export async function getUpComingMovies(page) {
     const response = await api.get('/3/movie/upcoming', {
+        ...default_headers,
         params: {
             page: page,
         },
-        headers: {
-            accept: 'application/json',
-            Authorization: `${process.env.EXPO_PUBLIC_TMDB_API_TOKEN}`,
         }
-    }
     );
     return response.data;
 }
 
 export async function getMovieInTheatre(page) {
     const response = await api.get('/3/movie/now_playing', {
-        params: {
-            page: page,
-        },
-        headers: {
-            accept: 'application/json',
-            Authorization: `${process.env.EXPO_PUBLIC_TMDB_API_TOKEN}`,
+            ...default_headers,
+            params: {
+                page: page,
+            },
         }
-    }
     );
     return response.data;
 }
