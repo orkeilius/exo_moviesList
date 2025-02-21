@@ -6,9 +6,8 @@ import {View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 
 export default function UserScreen() {
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     const session = useContext(SessionContext);
-    console.log(session.sessionId)
     if (session.sessionId=== "") {
         return <Login/>
     } else {

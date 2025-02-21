@@ -24,7 +24,6 @@ export function SessionContextProvider({children}: Readonly<{ children: React.Re
     }, []);
 
     useEffect(() => {
-        console.log("getting user details", sessionId)
         saveSessionId()
         getUserDetails().then(e => {
             setUsername(e.username)
