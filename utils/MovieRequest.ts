@@ -1,14 +1,16 @@
 import axios from 'axios';
-import {MovieListRequest} from "../types/MovieListRequest";
+import { MovieListRequest } from "../types/MovieListRequest";
 
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org',
 });
-const default_headers =   {headers:{
+const default_headers = {
+    headers: {
         accept: 'application/json',
         "content-type": 'application/json',
-        Authorization: "Bearer "+ process.env.EXPO_PUBLIC_TMDB_API_TOKEN
-    }};
+        Authorization: "Bearer " + process.env.EXPO_PUBLIC_TMDB_API_TOKEN
+    }
+};
 
 
 
@@ -20,8 +22,23 @@ const default_headers =   {headers:{
  * @returns A promise that resolves to the first movie object from the API response.
  */
 export async function getFeaturedMovie() {
-    const response = await api.get('/3/discover/movie?page=1');
+    const response = await api.get('/3/movie/popular',
+        {
+            ...default_headers,
+        }
+    );
     return response.data.results[0];
+}
+
+export async function getSearchMovies(query) {
+    const response = await api.get(`/3/search/movie?query=${query}`, {
+        ...default_headers,
+        params: {
+            query: query,
+        },
+    }
+    );
+    return response.data;
 }
 
 
@@ -37,18 +54,18 @@ export async function getUpComingMovies(page) {
         params: {
             page: page,
         },
-        }
+    }
     );
     return response.data as MovieListRequest;
 }
 
 export async function getMovieInTheatre(page) {
     const response = await api.get('/3/movie/now_playing', {
-            ...default_headers,
-            params: {
-                page: page,
-            },
-        }
+        ...default_headers,
+        params: {
+            page: page,
+        },
+    }
     );
     return response.data as MovieListRequest;
 }

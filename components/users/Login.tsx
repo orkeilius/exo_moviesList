@@ -32,7 +32,7 @@ export default function Login() {
                 login
             </Button>
             {requestToken != "" &&
-            <Button style={{margin:5}} onPress={() => checkLogin()}>Check connection ?</Button>
+                <Button style={{ margin: 5 }} onPress={() => checkLogin()}>Check connection ?</Button>
             }
         </View>
     )

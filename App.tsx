@@ -1,4 +1,3 @@
-
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import HomeScreen from "./screens/HomeScreen";

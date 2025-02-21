@@ -1,7 +1,7 @@
-import {Movie} from "./movie";
+import { Movie } from "./movie";
 
 export type MovieListRequest = {
-    date : {
+    date: {
         maximum: string,
         minimum: string
     },

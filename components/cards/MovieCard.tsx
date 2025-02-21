@@ -20,7 +20,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie,onPress }) => {
     }
 
     return (
-        <View>
+        <View style={{width: 300}}>
             <TouchableOpacity style={styles.container} onPress={onPress}>
                 <Image source={{ uri: movieBaseUrl + movie.poster_path }} style={styles.image} resizeMode="cover" />
 
