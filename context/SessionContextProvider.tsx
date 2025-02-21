@@ -16,7 +16,7 @@ export function SessionContextProvider(props: any) {
         })
     }, [sessionId]);
 
-    let values: SessionContextType = useMemo(() => ({sessionId, username, setSessionId }),[sessionId, username, setSessionId]);
+    const values: SessionContextType = useMemo(() => ({sessionId, username, setSessionId }),[sessionId, username, setSessionId]);
     return (
         <SessionContext.Provider value={values}>
             {props.children}

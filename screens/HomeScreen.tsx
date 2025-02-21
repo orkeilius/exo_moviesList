@@ -24,7 +24,7 @@ export default function HomeScreen() {
 
     useEffect(() => {
         getFeaturedMovie()
-            .then((res) => {
+            .then(res => {
                 setFeaturedMovie(res);
             })
             .catch(console.error);
@@ -33,7 +33,7 @@ export default function HomeScreen() {
 
     useEffect(() => {
         getUpComingMovies(upComingMoviesPage,session.sessionId)
-            .then((res) => {
+            .then(res => {
                 setUpComingMovies(res.results);
                 setUpComingMoviesNumberOfPages(res.total_pages);
             })
@@ -42,7 +42,7 @@ export default function HomeScreen() {
 
     useEffect(() => {
         getMovieInTheatre(moviesInTheatrePage,session.sessionId)
-            .then((res) => {
+            .then(res => {
                 setMoviesInTheatre(res.results);
                 setMoviesInTheatreNumberOfPages(res.total_pages);
             })
@@ -84,7 +84,7 @@ export default function HomeScreen() {
                     <DataTable.Pagination
                         page={upComingMoviesPage - 1}
                         numberOfPages={upComingMoviesNumberOfPages}
-                        onPageChange={(newPage) => setUpComingMoviesPage(newPage + 1)}
+                        onPageChange={newPage => setUpComingMoviesPage(newPage + 1)}
                         showFastPaginationControls
                     />
                 </DataTable>
@@ -111,7 +111,7 @@ export default function HomeScreen() {
                     <DataTable.Pagination
                         page={moviesInTheatrePage - 1}
                         numberOfPages={moviesInTheatreNumberOfPages}
-                        onPageChange={(newPage) => setMoviesInTheatrePage(newPage + 1)}
+                        onPageChange={newPage => setMoviesInTheatrePage(newPage + 1)}
                         showFastPaginationControls
                     />
                 </DataTable>

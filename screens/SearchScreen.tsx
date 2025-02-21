@@ -1,18 +1,18 @@
 import { FlatList, View } from "react-native";
 import { TextInput } from 'react-native-paper';
-import * as React from "react";
 import { getSearchMovies } from "../utils/MovieRequest";
 import SmallerMovieCard from "../components/cards/SmallerMovieCard";
 import { Movie } from "../types/movie";
+import {useEffect, useState} from "react";
 
 
 export default function SearchScreen() {
-    const [search, setSearch] = React.useState("");
-    const [movies, setMovies] = React.useState<Movie[]>([]);
+    const [search, setSearch] = useState("");
+    const [movies, setMovies] = useState<Movie[]>([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         getSearchMovies(search)
-            .then((res) => {
+            .then(res => {
                 setMovies(res.results);
             })
     }, [search]);
@@ -32,7 +32,7 @@ export default function SearchScreen() {
                     value={search}
                     left={<TextInput.Icon icon="magnify" disabled />}
                     right={search ? (<TextInput.Icon icon="close" onPress={clearSearch} />) : null}
-                    onChangeText={search => setSearch(search)}
+                    onChangeText={newSearch => setSearch(newSearch)}
                 />
             </View>
 
