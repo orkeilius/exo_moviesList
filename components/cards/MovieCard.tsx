@@ -4,23 +4,28 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {setFavorite, setWatchlist} from "../../utils/CollectionRequest";
 import {Movie} from "../../types/movie";
 import {SessionContext} from "../../context/SessionContextProvider";
+import { useNavigation } from '@react-navigation/native';
 
 export type MovieCardProps = {
     movie: Movie;
-    onPress? : ()=>void;
+    onPress?: () => void;
 };
 
 const movieBaseUrl = "https://image.tmdb.org/t/p/w500";
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie,onPress }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     const session = useContext(SessionContext);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isWatchList, setIsWatchList] = useState(false);
+    const navigation = useNavigation<any>();
 
     useEffect(() => {
         setIsFavorite(movie.favorite);
         setIsWatchList(movie.watchlist);
     }, [movie]);
+
+    
+    
 
     const toggleFavorite = () => {
         setFavorite(session.sessionId, "movie",movie.id, !isFavorite).then(() => setIsFavorite(!isFavorite))
@@ -32,8 +37,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie,onPress }) => {
     }
 
     return (
-        <View style={{width: 300}}>
-            <TouchableOpacity style={styles.container} onPress={onPress}>
+        <View style={{ width: 300 }}>
+            <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('MovieScreen', { movieId: movie.id })}>
                 <Image source={{ uri: movieBaseUrl + movie.poster_path }} style={styles.image} resizeMode="cover" />
                 {session.sessionId != "" &&
                     <>

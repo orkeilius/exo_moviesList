@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {MovieListRequest} from "../types/MovieListRequest";
 import {Movie} from "../types/movie";
+import { MovieDetails } from '../types/movieDetails';
 
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org',
@@ -76,6 +77,15 @@ export async function getMovieInTheatre(page,sessionId:string) {
     let output = response.data as MovieListRequest;
     output.results = await addMoviesUserState(output.results,sessionId);
     return output;
+}
+
+
+export async function getMovieDetails(movieId:string) {
+    const response = await api.get(`/3/movie/${movieId}`, {
+        ...default_headers,
+       
+    });
+    return response.data as MovieDetails;
 }
 
 
