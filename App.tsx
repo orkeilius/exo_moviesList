@@ -33,8 +33,8 @@ function RootStack() {
 
     return (
         <Stack.Navigator initialRouteName="Nav" id={null}>
-            <Stack.Screen name="Nav" component={BottomNav} />
-            <Stack.Screen name="MovieScreen">
+            <Stack.Screen name="Nav" options={{title:"",headerShown:false}}  component={BottomNav} />
+            <Stack.Screen name="MovieScreen" options={{title:"Details"}} >
                 {(props: any) => <MovieScreen {...props}  />}
             </Stack.Screen>
             <Stack.Screen name="Favoris" component={FavoriteScreen} />
