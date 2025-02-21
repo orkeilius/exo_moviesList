@@ -3,7 +3,7 @@ import { getUserDetails } from "../utils/AuthRequest";
 
 export const SessionContext = createContext(null);
 
-export function SessionContextProvider(props: any) {
+export function SessionContextProvider({children}: Readonly<{ children: React.ReactNode }>) {
     const [sessionId, setSessionId] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [userId, setUserId] = useState<number>(0);
@@ -19,7 +19,7 @@ export function SessionContextProvider(props: any) {
     const values: SessionContextType = useMemo(() => ({sessionId, username, setSessionId }),[sessionId, username, setSessionId]);
     return (
         <SessionContext.Provider value={values}>
-            {props.children}
+            {children}
         </SessionContext.Provider>
     )
 }

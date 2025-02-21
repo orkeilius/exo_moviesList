@@ -21,9 +21,8 @@ export async function openLoginPage(): Promise<string> {
 async function getRequestToken(): Promise<string> {
 
     const url = 'https://api.themoviedb.org/3/authentication/token/new';
-    return axios.get(url, defaultHeaders).then(response => {
-        return response.data.request_token;
-    }).catch(e => console.log(url, e, e.body));
+    return axios.get(url, defaultHeaders).then(response => response.data.request_token
+    ).catch(e => console.log(url, e, e.body));
 
 }
 
@@ -33,7 +32,11 @@ export async function createSession(requestToken: string): Promise<string> {
     return response.data.session_id;
 }
 
-export async function getUserDetails(): Promise<any> {
+export type UserDetails = {
+    username: string,
+    id: number
+}
+export async function getUserDetails(): Promise<UserDetails> {
     const url = "https://api.themoviedb.org/3/account/null"
     const responce = await axios.get(url, defaultHeaders).catch(e => console.log(e)) as AxiosResponse;
     return { username: responce.data.username, id: responce.data.id };
