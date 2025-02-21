@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {SessionContextProvider} from "./context/SessionContextProvider";
 import {createStackNavigator} from "@react-navigation/stack";
 import MovieScreen from "./screens/MovieScreen";
+import {FavoriteScreen, WatchlistScreen} from "./screens/ListScreen";
 
 
 export default function App() {
@@ -36,6 +37,7 @@ function RootStack() {
             <Stack.Screen name="MovieScreen">
                 {(props: any) => <MovieScreen {...props}  />}
             </Stack.Screen>
+            <Stack.Screen name="Favoris" component={FavoriteScreen} />
         </Stack.Navigator>
     );
 }
@@ -57,6 +59,12 @@ function BottomNav() {
           tabBarIcon: ({ color }) => (
               <Icon name="magnify" color={color} size={26} />
           ),
+        }} />
+        <Tab.Screen name="Watchlist" component={WatchlistScreen}
+            options={{
+            tabBarIcon: ({ color }) => (
+                <Icon name="movie-open" color={color} size={26} />
+            ),
         }} />
       <Tab.Screen name="UserPage" component={UserScreen} options={{
         tabBarIcon: ({ color }) => (
