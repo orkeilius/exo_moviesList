@@ -84,8 +84,18 @@ export async function getMovieDetails(movieId:number) {
     const response = await api.get(`/3/movie/${movieId}`, {
         ...defaultHeaders,
     });
+
     return response.data as MovieDetails;
 }
+
+export async function getActorsMovie(movieId:number) {
+    const response = await api.get(`/3/movie/${movieId}/credits`, {
+        ...defaultHeaders,
+    });
+
+    return response.data.cast;
+}
+
 export async function getFavorite(sessionId:string,page:number) {
     const url = `https://api.themoviedb.org/3/account/${sessionId}/favorite/movies?page=${page}`;
     const response =  await axios.get(url,defaultHeaders).catch(e => console.log(e)) as AxiosResponse;
