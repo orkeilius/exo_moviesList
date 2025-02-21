@@ -82,8 +82,7 @@ export async function getMovieInTheatre(page,sessionId:string) {
 
 export async function getMovieDetails(movieId:string) {
     const response = await api.get(`/3/movie/${movieId}`, {
-        ...default_headers,
-       
+        ...defaultHeaders,
     });
     return response.data as MovieDetails;
 }
