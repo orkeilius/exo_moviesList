@@ -59,6 +59,7 @@ export default function HomeScreen() {
                     <View style={{ alignItems: "center" }}>
                         <MovieCard
                             movie={featuredMovie}
+                            isfeatured
                         />
                     </View>
                 )}

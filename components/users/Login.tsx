@@ -21,7 +21,6 @@ export default function Login() {
 
     const checkLogin = () => {
         createSession(requestToken).then(e => {
-            console.log("session:", e)
             session.setSessionId(e)
         })
     }

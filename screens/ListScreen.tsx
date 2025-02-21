@@ -30,7 +30,6 @@ function ListScreen({type}: Readonly<{ type: listType }>) {
     )
 
 
-    console.log(movies)
     return (
             <FlatList
                 data={movies}

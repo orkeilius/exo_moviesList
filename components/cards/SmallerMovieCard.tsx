@@ -13,7 +13,7 @@ export type MovieCardProps = {
 const movieBaseUrl = "https://image.tmdb.org/t/p/w500";
 
 const SmallerMovieCard: React.FC<MovieCardProps> = ({ movie}) => {
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     const session = useContext(SessionContext);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isWatchList, setIsWatchList] = useState(false);
@@ -34,7 +34,6 @@ const SmallerMovieCard: React.FC<MovieCardProps> = ({ movie}) => {
         setWatchlist(session.sessionId, "movie", movie.id, !isWatchList).then(() => setIsWatchList(!isWatchList))
     }
 
-    // @ts-ignore
     return (
         <TouchableOpacity onPress={() => navigation.navigate('MovieScreen', { movieId: movie.id })}>
             <View style={styles.card}>

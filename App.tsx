@@ -17,7 +17,7 @@ export default function App() {
   return (
     <NavigationContainer>
         <SessionContextProvider>
-          <SafeAreaView style={{ flex: 1, paddingTop: 30 }} >
+          <SafeAreaView style={{ flex: 1, paddingTop: 40 }} >
             <PaperProvider>
               <RootStack />
             </PaperProvider>
