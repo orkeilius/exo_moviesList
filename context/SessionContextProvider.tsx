@@ -1,18 +1,33 @@
 import {createContext, useEffect, useMemo, useState} from "react";
 import { getUserDetails } from "../utils/AuthRequest";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const SessionContext = createContext(null);
 
 export function SessionContextProvider({children}: Readonly<{ children: React.ReactNode }>) {
     const [sessionId, setSessionId] = useState<string>('');
     const [username, setUsername] = useState<string>('');
-    const [userId, setUserId] = useState<number>(0);
+
+
+    const loadSessionId = async () => {
+        const value = await AsyncStorage.getItem('sessionId');
+        if (value !== null) {
+            setSessionId(value)
+        }
+    }
+    const saveSessionId = async () => {
+        await AsyncStorage.setItem('sessionId', sessionId);
+    }
+
+    useEffect(() => {
+        loadSessionId()
+    }, []);
 
     useEffect(() => {
         console.log("getting user details", sessionId)
+        saveSessionId()
         getUserDetails().then(e => {
             setUsername(e.username)
-            setUserId(e.id)
         })
     }, [sessionId]);
 
