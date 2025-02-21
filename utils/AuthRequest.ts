@@ -31,8 +31,8 @@ export async function createSession(request_token: string) :Promise<string> {
     return response.data.session_id;
 }
 
-export async function getUserDetails():Promise<string> {
+export async function getUserDetails():Promise<any> {
     const url =  "https://api.themoviedb.org/3/account/null"
     let responce = await axios.get(url,default_headers).catch(e => console.log(e)) as AxiosResponse;
-    return responce.data.username;
+    return {username:responce.data.username,id:responce.data.id};
 }
