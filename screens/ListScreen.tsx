@@ -2,7 +2,7 @@ import { FlatList } from "react-native";
 import SmallerMovieCard from "../components/cards/SmallerMovieCard";
 import { Movie } from "../types/movie";
 import {useCallback, useContext, useEffect, useState} from "react";
-import {getFavorite, getWatchlist} from "../utils/CollectionRequest";
+import {getFavorite, getWatchlist} from "../utils/MovieRequest";
 import {SessionContext} from "../context/SessionContextProvider";
 import {useFocusEffect} from "@react-navigation/native";
 

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 import {MovieListRequest} from "../types/MovieListRequest";
 import {Movie} from "../types/movie";
@@ -84,10 +84,22 @@ export async function getMovieDetails(movieId:number) {
     const response = await api.get(`/3/movie/${movieId}`, {
         ...defaultHeaders,
     });
-    
     return response.data as MovieDetails;
 }
-
+export async function getFavorite(sessionId:string,page:number) {
+    const url = `https://api.themoviedb.org/3/account/${sessionId}/favorite/movies?page=${page}`;
+    const response =  await axios.get(url,defaultHeaders).catch(e => console.log(e)) as AxiosResponse;
+    const output = response.data as MovieListRequest;
+    output.results = await addMoviesUserState(output.results,sessionId);
+    return output;
+}
+export async function getWatchlist(sessionId:string,page:number) {
+    const url = `https://api.themoviedb.org/3/account/${sessionId}/watchlist/movies?page=${page}`;
+    const response =  await axios.get(url,defaultHeaders).catch(e => console.log(e)) as AxiosResponse;
+    const output = response.data as MovieListRequest;
+    output.results = await addMoviesUserState(output.results,sessionId);
+    return output;
+}
 
 export async function addMoviesUserState(movieList:Movie[],sessionId:string ): Promise<Movie[]> {
     if (sessionId === "") {
