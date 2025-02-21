@@ -30,7 +30,7 @@ export async function getFavorite(sessionID:number,page:number) {
     return response.data as MovieListRequest;
 }
 export async function getWatchlist(sessionID:number,page:number) {
-    const url = `https://api.themoviedb.org/3/account/${sessionID}/favorite/movies?page=${page}`;
+    const url = `https://api.themoviedb.org/3/account/${sessionID}/watchlist/movies?page=${page}`;
     const response =  await axios.get(url,defaultHeaders).catch(e => console.log(e)) as AxiosResponse;
     return response.data as MovieListRequest;
 }
