@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Text, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {setFavorite} from "../../utils/CollectionRequest";
+import {Movie} from "../../types/movie";
 
 export type MovieCardProps = {
-    title: string;
-    imageUrl: string;
-    onPress?: () => void;
+    movie: Movie;
+    onPress? : ()=>void;
 };
 
-const MovieCard: React.FC<MovieCardProps> = ({ title, imageUrl, onPress }) => {
+const movieBaseUrl = "https://image.tmdb.org/t/p/w500";
+
+const MovieCard: React.FC<MovieCardProps> = ({ movie,onPress }) => {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isWatchList, setIsWatchList] = useState(false);
+
+    const toggleFavorite = () => {
+        setIsFavorite(!isFavorite);
+    }
 
     return (
         <View>
             <TouchableOpacity style={styles.container} onPress={onPress}>
-                <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
+                <Image source={{ uri: movieBaseUrl + movie.poster_path }} style={styles.image} resizeMode="cover" />
 
                 <View style={[styles.floatingIcon, styles.leftIcon]}>
                     <TouchableOpacity onPress={() => setIsFavorite(!isFavorite)}>
@@ -30,7 +37,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ title, imageUrl, onPress }) => {
                 </View>
 
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.title}>{movie.title}</Text>
                     <Icon name="chevron-right" size={30} color="#333" />
                 </View>
             </TouchableOpacity>

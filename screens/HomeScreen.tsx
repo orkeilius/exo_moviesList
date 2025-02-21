@@ -3,12 +3,9 @@ import { FlatList, ScrollView, View } from "react-native";
 import { Text, DataTable } from "react-native-paper";
 import MovieCard from "../components/cards/MovieCard";
 import { getFeaturedMovie, getMovieInTheatre, getUpComingMovies } from "../utils/MovieRequest";
+import {Movie} from "../types/movie";
 
-interface Movie {
-    id: number;
-    title: string;
-    poster_path: string;
-}
+
 
 export default function HomeScreen() {
 
@@ -59,9 +56,7 @@ export default function HomeScreen() {
                 {featuredMovie && (
                     <View style={{ alignItems: "center" }}>
                         <MovieCard
-                            title={featuredMovie.title}
-                            imageUrl={`${imageUrl}${featuredMovie.poster_path}`}
-                            key={featuredMovie.id}
+                            movie={featuredMovie}
                         />
                     </View>
                 )}
@@ -75,8 +70,7 @@ export default function HomeScreen() {
                     data={upComingMovies}
                     renderItem={({ item }) => (
                         <MovieCard
-                            title={item.title}
-                            imageUrl={`${imageUrl}${item.poster_path}`}
+                            movie={item}
                             key={item.id}
                         />
                     )}
@@ -103,8 +97,7 @@ export default function HomeScreen() {
                     data={moviesInTheatre}
                     renderItem={({ item }) => (
                         <MovieCard
-                            title={item.title}
-                            imageUrl={`${imageUrl}${item.poster_path}`}
+                            movie={item}
                             key={item.id}
                         />
                     )}

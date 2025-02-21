@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {MovieListRequest} from "../types/MovieListRequest";
 
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org',
@@ -38,7 +39,7 @@ export async function getUpComingMovies(page) {
         },
         }
     );
-    return response.data;
+    return response.data as MovieListRequest;
 }
 
 export async function getMovieInTheatre(page) {
@@ -49,6 +50,6 @@ export async function getMovieInTheatre(page) {
             },
         }
     );
-    return response.data;
+    return response.data as MovieListRequest;
 }
 
