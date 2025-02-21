@@ -1,19 +1,56 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Movie } from '../../types/movie';
+import {useNavigation} from "@react-navigation/native";
+import {SessionContext} from "../../context/SessionContextProvider";
+import {setFavorite, setWatchlist} from "../../utils/CollectionRequest";
+import {Text} from "react-native-paper";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export type MovieCardProps = {
     movie: Movie;
-    onPress?: () => void;
 };
 const movieBaseUrl = "https://image.tmdb.org/t/p/w500";
 
-const SmallerMovieCard: React.FC<MovieCardProps> = ({ movie, onPress }) => {
+const SmallerMovieCard: React.FC<MovieCardProps> = ({ movie}) => {
+    const navigation = useNavigation();
+    const session = useContext(SessionContext);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [isWatchList, setIsWatchList] = useState(false);
+
+    useEffect(() => {
+        setIsFavorite(movie.favorite);
+        setIsWatchList(movie.watchlist);
+    }, [movie]);
+
+    const toggleFavorite = () => {
+        setFavorite(session.sessionId, "movie",movie.id, !isFavorite).then(() => {
+            setIsFavorite(!isFavorite)
+        })
+    }
+
+
+    const toggleWatchList = () => {
+        setWatchlist(session.sessionId, "movie", movie.id, !isWatchList).then(() => setIsWatchList(!isWatchList))
+    }
+
+    // @ts-ignore
     return (
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={() => navigation.navigate('MovieScreen', { movieId: movie.id })}>
             <View style={styles.card}>
                 <Image source={{ uri: movieBaseUrl + movie.poster_path }} style={styles.image} resizeMode="cover" />
                 <Text style={styles.name}>{movie.original_title}</Text>
+                <View style={[styles.icon]}>
+                    <TouchableOpacity onPress={toggleFavorite}>
+                        <Icon name={isFavorite ? 'heart' : 'heart-outline'} color={isFavorite ? 'red' : undefined} size={30} />
+                    </TouchableOpacity>
+                </View>
+
+                <View style={[styles.icon]}>
+                    <TouchableOpacity onPress={toggleWatchList}>
+                        <Icon name={isWatchList ? 'check' : 'plus'} size={30} />
+                    </TouchableOpacity>
+                </View>
             </View>
         </TouchableOpacity>
 
@@ -25,7 +62,7 @@ const styles = StyleSheet.create({
         height: 80,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         paddingHorizontal: 10,
         backgroundColor: '#fff',
         borderRadius: 8,
@@ -35,10 +72,12 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
         margin: 5
+
     },
     image: {
         width: 50,
         height: 80,
+        left:-10
     },
     name: {
         fontWeight: 'bold',
@@ -48,6 +87,9 @@ const styles = StyleSheet.create({
     detail: {
         fontSize: 14,
     },
+    icon:{
+
+    }
 });
 
 export default SmallerMovieCard;

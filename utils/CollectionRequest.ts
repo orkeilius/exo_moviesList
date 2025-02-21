@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import {MovieListRequest} from "../types/MovieListRequest";
 
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org',
@@ -24,13 +23,3 @@ export async function setWatchlist(sessionID:number,media_type:string,media_id:n
     return await axios.post(url, {media_type,media_id,watchlist}, defaultHeaders).catch(e => console.log(e)) as AxiosResponse;
 }
 
-export async function getFavorite(sessionID:number,page:number) {
-    const url = `https://api.themoviedb.org/3/account/${sessionID}/favorite/movies?page=${page}`;
-    const response =  await axios.get(url,defaultHeaders).catch(e => console.log(e)) as AxiosResponse;
-    return response.data as MovieListRequest;
-}
-export async function getWatchlist(sessionID:number,page:number) {
-    const url = `https://api.themoviedb.org/3/account/${sessionID}/favorite/movies?page=${page}`;
-    const response =  await axios.get(url,defaultHeaders).catch(e => console.log(e)) as AxiosResponse;
-    return response.data as MovieListRequest;
-}
