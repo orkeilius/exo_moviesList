@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { FlatList, ScrollView, View } from "react-native";
 import { Text, DataTable } from "react-native-paper";
 import MovieCard from "../components/cards/MovieCard";
-import { getFeaturedMovie, getMovieInTheatre, getUpComingMovies } from "../utils/MovieRequest";
-import { Movie } from "../types/movie";
+
+import {getFeaturedMovie, getMovieInTheatre, getUpComingMovies} from "../utils/MovieRequest";
+import {Movie} from "../types/movie";
+import {SessionContext} from "../context/SessionContextProvider";
+
 
 
 
 export default function HomeScreen() {
-
+    const session = useContext(SessionContext);
     const [moviesInTheatre, setMoviesInTheatre] = useState<Movie[]>([]);
     const [moviesInTheatrePage, setMoviesInTheatrePage] = useState(1);
     const [moviesInTheatreNumberOfPages, setMoviesInTheatreNumberOfPages] = useState(0);
 
     const [upComingMovies, setUpComingMovies] = useState<Movie[]>([]);
-    const [upComingMoviesPage, setUpComingMoviesPagePage] = useState(1);
+    const [upComingMoviesPage, setUpComingMoviesPage] = useState(1);
     const [upComingMoviesNumberOfPages, setUpComingMoviesNumberOfPages] = useState(0);
 
     const [featuredMovie, setFeaturedMovie] = useState<Movie>(null);
@@ -25,11 +28,11 @@ export default function HomeScreen() {
                 setFeaturedMovie(res);
             })
             .catch(console.error);
-    }, []);
+    }, [session.sessionId]);
 
 
     useEffect(() => {
-        getUpComingMovies(upComingMoviesPage)
+        getUpComingMovies(upComingMoviesPage,session.sessionId)
             .then((res) => {
                 setUpComingMovies(res.results);
                 setUpComingMoviesNumberOfPages(res.total_pages);
@@ -38,7 +41,7 @@ export default function HomeScreen() {
 
 
     useEffect(() => {
-        getMovieInTheatre(moviesInTheatrePage)
+        getMovieInTheatre(moviesInTheatrePage,session.sessionId)
             .then((res) => {
                 setMoviesInTheatre(res.results);
                 setMoviesInTheatreNumberOfPages(res.total_pages);
@@ -81,7 +84,7 @@ export default function HomeScreen() {
                     <DataTable.Pagination
                         page={upComingMoviesPage - 1}
                         numberOfPages={upComingMoviesNumberOfPages}
-                        onPageChange={(newPage) => setUpComingMoviesPagePage(newPage + 1)}
+                        onPageChange={(newPage) => setUpComingMoviesPage(newPage + 1)}
                         showFastPaginationControls
                     />
                 </DataTable>

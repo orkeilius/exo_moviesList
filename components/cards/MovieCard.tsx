@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Text, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {setFavorite} from "../../utils/CollectionRequest";
+import {setFavorite, setWatchlist} from "../../utils/CollectionRequest";
 import {Movie} from "../../types/movie";
+import {SessionContext} from "../../context/SessionContextProvider";
 
 export type MovieCardProps = {
     movie: Movie;
@@ -12,29 +13,43 @@ export type MovieCardProps = {
 const movieBaseUrl = "https://image.tmdb.org/t/p/w500";
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie,onPress }) => {
+    const session = useContext(SessionContext);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isWatchList, setIsWatchList] = useState(false);
 
+    useEffect(() => {
+        setIsFavorite(movie.favorite);
+        setIsWatchList(movie.watchlist);
+    }, [movie]);
+
     const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
+        setFavorite(session.sessionId, "movie",movie.id, !isFavorite).then(() => setIsFavorite(!isFavorite))
+    }
+
+
+    const toggleWatchList = () => {
+        setWatchlist(session.sessionId, "movie", movie.id, !isWatchList).then(() => setIsWatchList(!isWatchList))
     }
 
     return (
         <View style={{width: 300}}>
             <TouchableOpacity style={styles.container} onPress={onPress}>
                 <Image source={{ uri: movieBaseUrl + movie.poster_path }} style={styles.image} resizeMode="cover" />
+                {session.sessionId != "" &&
+                    <>
+                        <View style={[styles.floatingIcon, styles.leftIcon]}>
+                            <TouchableOpacity onPress={toggleFavorite}>
+                                <Icon name={isFavorite ? 'heart' : 'heart-outline'} color={isFavorite ? 'red' : undefined} size={30} />
+                            </TouchableOpacity>
+                        </View>
 
-                <View style={[styles.floatingIcon, styles.leftIcon]}>
-                    <TouchableOpacity onPress={() => setIsFavorite(!isFavorite)}>
-                        <Icon name={isFavorite ? 'heart' : 'heart-outline'} color={isFavorite ? 'red' : undefined} size={30} />
-                    </TouchableOpacity>
-                </View>
-
-                <View style={[styles.floatingIcon, styles.rightIcon]}>
-                    <TouchableOpacity onPress={() => setIsWatchList(!isWatchList)}>
-                        <Icon name={isWatchList ? 'check' : 'plus'} size={30} />
-                    </TouchableOpacity>
-                </View>
+                        <View style={[styles.floatingIcon, styles.rightIcon]}>
+                            <TouchableOpacity onPress={toggleWatchList}>
+                                <Icon name={isWatchList ? 'check' : 'plus'} size={30} />
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                }
 
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{movie.title}</Text>
