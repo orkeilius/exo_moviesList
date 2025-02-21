@@ -3,8 +3,10 @@ import {SessionContext} from "../context/SessionContextProvider";
 import {useContext} from "react";
 import Login from "../components/users/Login";
 import {View} from "react-native";
+import {useNavigation} from "@react-navigation/native";
 
 export default function UserScreen() {
+    const navigation = useNavigation();
     const session = useContext(SessionContext);
     console.log(session.sessionId)
     if (session.sessionId=== "") {
@@ -20,8 +22,8 @@ export default function UserScreen() {
 
                 </View>
                 <View style={{width:"100%"}}>
-                    <DrawerItem text="Favoris" action={()=> console.log("e")}/>
-                    <DrawerItem text="Watch list" action={()=> console.log("e")}/>
+                    <DrawerItem text="Favoris" action={()=> navigation.navigate("Favoris")}/>
+                    <DrawerItem text="Watch list" action={()=> navigation.navigate("Watchlist")}/>
                     <DrawerItem text="Log out" action={()=> session.setSessionId("")}/>
                 </View>
             </View>

@@ -3,9 +3,11 @@ import { SessionContext, SessionContextType } from "../../context/SessionContext
 import { createSession, openLoginPage } from "../../utils/AuthRequest";
 import { View } from "react-native";
 import { Button } from "react-native-paper";
+import {useNavigation} from "@react-navigation/native";
 
 export default function Login() {
     const session: SessionContextType = useContext(SessionContext);
+    const navigation = useNavigation<any>();
     const [requestToken, setRequestToken] = useState<string>('');
 
     useEffect(() => {
