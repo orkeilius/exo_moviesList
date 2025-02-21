@@ -40,7 +40,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         <View style={{ width: 300 }}>
             <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('MovieScreen', { movieId: movie.id })}>
                 <Image source={{ uri: movieBaseUrl + movie.poster_path }} style={styles.image} resizeMode="cover" />
-                {session.sessionId != "" &&
+                {session.sessionId !== "" &&
                     <>
                         <View style={[styles.floatingIcon, styles.leftIcon]}>
                             <TouchableOpacity onPress={toggleFavorite}>

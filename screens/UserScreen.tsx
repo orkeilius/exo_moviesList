@@ -7,7 +7,7 @@ import {View} from "react-native";
 export default function UserScreen() {
     const session = useContext(SessionContext);
     console.log(session.sessionId)
-    if (session.sessionId== "") {
+    if (session.sessionId=== "") {
         return <Login/>
     } else {
         return (

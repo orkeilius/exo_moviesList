@@ -7,7 +7,7 @@ import { MovieDetails } from '../types/movieDetails';
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org',
 });
-const default_headers = {
+const defaultHeaders = {
     headers: {
         accept: 'application/json',
         "content-type": 'application/json',
@@ -27,7 +27,7 @@ const default_headers = {
 export async function getFeaturedMovie() {
     const response = await api.get('/3/movie/popular',
         {
-            ...default_headers,
+            ...defaultHeaders,
         }
     );
     return response.data.results[0] as Movie;
@@ -36,9 +36,9 @@ export async function getFeaturedMovie() {
 
 export async function getSearchMovies(query) {
     const response = await api.get(`/3/search/movie?query=${query}`, {
-        ...default_headers,
+        ...defaultHeaders,
         params: {
-            query: query,
+            query
         },
     }
     );
@@ -55,26 +55,26 @@ export async function getSearchMovies(query) {
  */
 export async function getUpComingMovies(page,sessionId:string) {
     const response = await api.get('/3/movie/upcoming', {
-        ...default_headers,
+        ...defaultHeaders,
         params: {
-            page: page,
+            page
         },
     }
     );
-    let output = response.data as MovieListRequest;
+    const output = response.data as MovieListRequest;
     output.results = await addMoviesUserState(output.results,sessionId);
     return output;
 }
 
 export async function getMovieInTheatre(page,sessionId:string) {
     const response = await api.get('/3/movie/now_playing', {
-        ...default_headers,
+        ...defaultHeaders,
         params: {
-            page: page,
+            page
         },
     }
     );
-    let output = response.data as MovieListRequest;
+    const output = response.data as MovieListRequest;
     output.results = await addMoviesUserState(output.results,sessionId);
     return output;
 }
@@ -90,19 +90,18 @@ export async function getMovieDetails(movieId:string) {
 
 
 export async function addMoviesUserState(movieList:Movie[],sessionId:string ): Promise<Movie[]> {
-    if (sessionId == "") return movieList;
-    console.log("e:",sessionId)
+    if (sessionId === "") {
+        return movieList
+    }
 
-    console.log("send userState request",movieList.map(m => m.id));
-    return await Promise.all(movieList.map(async (movie) => {
-        return addMovieUserState(movie, sessionId).then((res) => {
-           return {...movie,...res} as Movie;
-        }).catch(console.error);
+    return await Promise.all(movieList.map(async movie => {
+        return addMovieUserState(movie, sessionId).then(res => ({...movie,...res} as Movie)
+        ).catch(console.error);
     })) as Movie[];
 }
 async function addMovieUserState(movie:Movie,session_id:string):Promise<Movie> {
-    const response = await api.get(`/3/movie/`+movie.id+'/account_states', {
-        ...default_headers,
+    const response = await api.get(`/3/movie/${movie.id}/account_states`, {
+        ...defaultHeaders,
         params: {
             session_id
         }

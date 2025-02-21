@@ -9,9 +9,9 @@ export default function Login() {
     const [requestToken, setRequestToken] = useState<string>('');
 
     useEffect(() => {
-        let timeout = setTimeout(() => {
+        const timeout = setTimeout(() => {
             checkLogin()
-        }, 1000 * 5)
+        }, 5000)
         return () => {
             clearTimeout(timeout)
         }
@@ -31,7 +31,7 @@ export default function Login() {
             >
                 login
             </Button>
-            {requestToken != "" &&
+            {requestToken !== "" &&
                 <Button style={{ margin: 5 }} onPress={() => checkLogin()}>Check connection ?</Button>
             }
         </View>
