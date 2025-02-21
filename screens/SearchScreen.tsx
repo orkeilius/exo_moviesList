@@ -31,7 +31,7 @@ export default function SearchScreen() {
                     mode="outlined"
                     value={search}
                     left={<TextInput.Icon icon="magnify" disabled />}
-                    right={search && (<TextInput.Icon icon="close" onPress={clearSearch} />)}
+                    right={search ? (<TextInput.Icon icon="close" onPress={clearSearch} />) : null}
                     onChangeText={search => setSearch(search)}
                 />
             </View>

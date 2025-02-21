@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import HomeScreen from "./screens/HomeScreen";
 import SearchScreen from "./screens/SearchScreen";
@@ -34,30 +34,23 @@ function BottomNav() {
     <Tab.Navigator initialRouteName={"Home"} >
       <Tab.Screen name="Home" component={HomeScreen} options={{
         tabBarIcon: ({ color }) => (
-          <View style={styles.Icon}>
             <Icon name="home" color={color} size={26} />
-          </View>
         ),
       }} />
       <Tab.Screen name="Search" component={SearchScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <View style={styles.Icon}>
               <Icon name="magnify" color={color} size={26} />
-            </View>
           ),
         }} />
       <Tab.Screen name="UserPage" component={UserScreen} options={{
         tabBarIcon: ({ color }) => (
-          <View style={styles.Icon}>
             <Icon name="account" color={color} size={26} />
-          </View>
         ),
       }} />
     </Tab.Navigator>
   )
 }
-
 const styles = StyleSheet.create({
   Icon: {
     flex: 1,

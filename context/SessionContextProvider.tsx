@@ -1,12 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import {createContext, useEffect, useMemo, useState} from "react";
 import { getUserDetails } from "../utils/AuthRequest";
 
 export const SessionContext = createContext(null);
 
 export function SessionContextProvider(props: any) {
-    var [sessionId, setSessionId] = useState<string>('');
-    var [username, setUsername] = useState<string>('');
-    var [userId, setUserId] = useState<number>(0);
+    const [sessionId, setSessionId] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
+    const [userId, setUserId] = useState<number>(0);
 
     useEffect(() => {
         console.log("getting user details", sessionId)
@@ -16,7 +16,7 @@ export function SessionContextProvider(props: any) {
         })
     }, [sessionId]);
 
-    let values: SessionContextType = { sessionId, username, setSessionId }
+    let values: SessionContextType = useMemo(() => ({sessionId, username, setSessionId }),[sessionId, username, setSessionId]);
     return (
         <SessionContext.Provider value={values}>
             {props.children}
