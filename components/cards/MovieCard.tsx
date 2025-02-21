@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Text, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {setFavorite, setWatchlist} from "../../utils/CollectionRequest";
@@ -16,6 +16,11 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie,onPress }) => {
     const session = useContext(SessionContext);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isWatchList, setIsWatchList] = useState(false);
+
+    useEffect(() => {
+        setIsFavorite(movie.favorite);
+        setIsWatchList(movie.watchlist);
+    }, [movie]);
 
     const toggleFavorite = () => {
         setFavorite(session.sessionId, "movie",movie.id, !isFavorite).then(() => setIsFavorite(!isFavorite))

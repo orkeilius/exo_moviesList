@@ -13,4 +13,11 @@ export type Movie = {
     video: boolean,
     vote_average: number,
     vote_count: number
+
+    // info from AccountStates
+    favorite?: boolean,
+    watchlist?: boolean
+    rated?: {
+        value: number
+    }
 }
