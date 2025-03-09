@@ -9,11 +9,12 @@ import { useNavigation } from '@react-navigation/native';
 export type MovieCardProps = {
     movie: Movie;
     onPress?: () => void;
+    isfeatured?: boolean;
 };
 
 const movieBaseUrl = "https://image.tmdb.org/t/p/w500";
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie,isfeatured }) => {
     const session = useContext(SessionContext);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isWatchList, setIsWatchList] = useState(false);
@@ -40,7 +41,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         <View style={{ width: 300 }}>
             <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('MovieScreen', { movieId: movie.id })}>
                 <Image source={{ uri: movieBaseUrl + movie.poster_path }} style={styles.image} resizeMode="cover" />
-                {session.sessionId !== "" &&
+                {session.sessionId !== "" && !isfeatured &&
                     <>
                         <View style={[styles.floatingIcon, styles.leftIcon]}>
                             <TouchableOpacity onPress={toggleFavorite}>

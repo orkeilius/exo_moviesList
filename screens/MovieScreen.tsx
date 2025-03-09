@@ -1,12 +1,12 @@
-import {useEffect, useContext, useState} from 'react';
-import {Text, Image, ScrollView, StyleSheet, FlatList, View, TouchableOpacity} from 'react-native';
-import {MovieDetails} from '../types/movieDetails';
-import {Actor} from '../types/actor';
-import {SessionContext} from '../context/SessionContextProvider';
-import {getMovieDetails, getActorsMovie} from '../utils/MovieRequest';
+import { useEffect, useContext, useState } from 'react';
+import { Text, Image, ScrollView, StyleSheet, FlatList, View, TouchableOpacity } from 'react-native';
+import { MovieDetails } from '../types/movieDetails';
+import { Actor } from '../types/actor';
+import { SessionContext } from '../context/SessionContextProvider';
+import { getMovieDetails, getActorsMovie } from '../utils/MovieRequest';
 import ActorCard from '../components/cards/ActorCard';
-import {setFavorite, setWatchlist} from "../utils/CollectionRequest";
-import {Button} from 'react-native-paper';
+import { setFavorite, setWatchlist } from "../utils/CollectionRequest";
+import { Button } from 'react-native-paper';
 
 export type MovieScreenProps = {
     movie: MovieDetails;
@@ -17,8 +17,8 @@ export type ActorCardProps = {
 };
 
 
-const MovieScreen: React.FC<{ route: { params: { movieId: number } } }> = ({route}) => {
-    const {movieId} = route.params;
+const MovieScreen: React.FC<{ route: { params: { movieId: number } } }> = ({ route }) => {
+    const { movieId } = route.params;
     const session = useContext(SessionContext);
     const [movieData, setMovieData] = useState<MovieDetails | null>(null);
     const [actors, setActors] = useState<Actor[]>([]);
@@ -26,27 +26,27 @@ const MovieScreen: React.FC<{ route: { params: { movieId: number } } }> = ({rout
 
     const toggleFavorite = () => {
         setFavorite(session.sessionId, "movie", movieData.id, !movieData.favorite).then(() => {
-            setMovieData({...movieData, favorite: !movieData.favorite})
+            setMovieData({ ...movieData, favorite: !movieData.favorite })
         })
     }
     const toggleWatchList = () => {
         setWatchlist(session.sessionId, "movie", movieData.id, !movieData.watchlist).then(() => {
-            setMovieData({...movieData, watchlist: !movieData.watchlist})
+            setMovieData({ ...movieData, watchlist: !movieData.watchlist })
         })
     }
     useEffect(() => {
         getActorsMovie(movieId)
             .then(res => {
-                    setActors(res);
-                }
+                setActors(res);
+            }
             )
     }, []);
 
     useEffect(() => {
         getMovieDetails(movieId, session.sessionId)
             .then(res => {
-                    setMovieData(res);
-                }
+                setMovieData(res);
+            }
             )
     }, []);
 
@@ -56,34 +56,30 @@ const MovieScreen: React.FC<{ route: { params: { movieId: number } } }> = ({rout
             {movieData && (
                 <>
                     <Image
-                        source={{uri: `https://image.tmdb.org/t/p/w500${movieData.poster_path}`}}
+                        source={{ uri: `https://image.tmdb.org/t/p/w500${movieData.poster_path}` }}
                         style={styles.poster}
                     />
-                    {console.log(movieData.favorite)
-                    } {session.sessionId !== "" &&
-                    <View style={{flexDirection: 'row', gap: 3}}>
-                        <View>
-                            <TouchableOpacity onPress={toggleFavorite}>4
-                                {movieData.favorite ? (<Button icon="heart" mode="contained">
-                                        Remove from favorite
-                                    </Button>)
-                                    : (<Button icon="heart-outline" mode="contained">
-                                        Add to favorite
-                                    </Button>)
+                    {session.sessionId !== "" &&
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 }}>
+                            <View>
+                                <TouchableOpacity onPress={toggleFavorite}>
+                                    <Button icon={movieData.favorite ? 'heart' : 'heart-outline'} mode="contained">
+                                        Favorite
+                                    </Button>
 
-                                }
-                            </TouchableOpacity>
-                        </View>
 
-                        <View>
-                            <TouchableOpacity onPress={toggleWatchList}>
-                                <Button icon="plus" mode="contained">
-                                    Add to watchlist
-                                </Button>
-                            </TouchableOpacity>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View>
+                                <TouchableOpacity onPress={toggleWatchList}>
+                                    <Button icon={movieData.watchlist ? 'check' : 'plus'} mode="contained">
+                                        Watchlist
+                                    </Button>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                }
+                    }
                     <Text style={styles.title}>{movieData.title}</Text>
                     <Text style={styles.tagline}>{movieData.tagline}</Text>
                     <Text style={styles.overview}>{movieData.overview}</Text>
@@ -98,7 +94,7 @@ const MovieScreen: React.FC<{ route: { params: { movieId: number } } }> = ({rout
                     <Text style={styles.label}>Actors:</Text>
                     <FlatList
                         data={actors}
-                        renderItem={({item}) => (
+                        renderItem={({ item }) => (
                             <ActorCard
                                 name={item.name}
                                 profilePicture={item.profile_path}
@@ -111,7 +107,7 @@ const MovieScreen: React.FC<{ route: { params: { movieId: number } } }> = ({rout
                     <Text style={styles.label}>Vote Average:</Text>
                     <Text>{movieData.vote_average}</Text>
                     <Text style={styles.label}>Vote Count:</Text>
-                    <Text style={{paddingBottom: 24}}>{movieData.vote_count}</Text>
+                    <Text style={{ paddingBottom: 24 }}>{movieData.vote_count}</Text>
                 </>
             )}
         </ScrollView>
