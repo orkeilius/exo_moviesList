@@ -1,6 +1,7 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import HomeScreen from "./screens/HomeScreen";
+import SerieScreen from './screens/SerieScreen';
 import SearchScreen from "./screens/SearchScreen";
 import UserScreen from "./screens/UserScreen";
 import { NavigationContainer } from "@react-navigation/native";
@@ -36,6 +37,9 @@ function RootStack() {
             <Stack.Screen name="Nav" options={{title:"",headerShown:false}}  component={BottomNav} />
             <Stack.Screen name="MovieScreen" options={{title:"Details"}} >
                 {(props: any) => <MovieScreen {...props}  />}
+            </Stack.Screen>
+            <Stack.Screen name="SerieScreen" options={{title:"Details"}} >
+                {(props: any) => <SerieScreen {...props}  />}
             </Stack.Screen>
             <Stack.Screen name="Favoris" component={FavoriteScreen} />
         </Stack.Navigator>
