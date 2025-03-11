@@ -1,21 +1,30 @@
 import { FlatList, View } from "react-native";
 import { TextInput } from 'react-native-paper';
-import { getSearchMovies } from "../utils/MovieRequest";
+import { getSearch } from "../utils/MovieRequest";
 import SmallerMovieCard from "../components/cards/SmallerMovieCard";
+import SmallerSerieCard from "../components/cards/SmallerSerieCard";
 import { Movie } from "../types/movie";
-import {useEffect, useState} from "react";
+import { Serie } from "../types/serie";
+import { Text } from "react-native-paper";
+
+import { useEffect, useState } from "react";
 
 
 export default function SearchScreen() {
     const [search, setSearch] = useState("");
     const [movies, setMovies] = useState<Movie[]>([]);
+    const [tvShows, setTvShows] = useState<Serie[]>([]);
 
     useEffect(() => {
-        getSearchMovies(search)
+        getSearch(search)
             .then(res => {
-                setMovies(res.results);
+                setMovies(res.movies.results);
+                setTvShows(res.tvShows.results);
             })
     }, [search]);
+
+    console.log("movie", movies);
+    console.log("tv", tvShows);
 
     function clearSearch() {
         setSearch("");
@@ -36,7 +45,12 @@ export default function SearchScreen() {
                 />
             </View>
 
+
+            <Text style={{ fontSize: 20, fontWeight: "bold", paddingLeft: 10 }}>
+                Films
+            </Text>
             <FlatList
+
                 data={movies}
                 renderItem={({ item }) => (
                     <SmallerMovieCard
@@ -45,6 +59,20 @@ export default function SearchScreen() {
                     />
                 )}
 
+            />
+
+
+            <Text style={{ fontSize: 20, fontWeight: "bold", paddingLeft: 10 }}>
+                Series
+            </Text>
+            <FlatList
+                data={tvShows}
+                renderItem={({ item }) => (
+                    <SmallerSerieCard
+                        serie={item}
+                        key={item.id}
+                    />
+                )}
             />
 
         </>
