@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { Text, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { setFavorite, setWatchlist } from "../../utils/CollectionRequest";
 import { Serie } from "../../types/serie";
-import { SessionContext } from "../../context/SessionContextProvider";
 import { useNavigation } from '@react-navigation/native';
 
 export type SerieCardProps = {
@@ -14,46 +12,18 @@ export type SerieCardProps = {
 
 const serieBaseUrl = "https://image.tmdb.org/t/p/w500";
 
-const SerieCard: React.FC<SerieCardProps> = ({ serie, isFeatured }) => {
-    const session = useContext(SessionContext);
-    const [isFavorite, setIsFavorite] = useState(false);
-    const [isWatchList, setIsWatchList] = useState(false);
+const SerieCard: React.FC<SerieCardProps> = ({ serie }) => {
+
     const navigation = useNavigation<any>();
 
 
-    useEffect(() => {
-        setIsFavorite(serie.favorite);
-        setIsWatchList(serie.watchlist);
-    }, [serie]);
 
-    const toggleFavorite = () => {
-        setFavorite(session.sessionId, "tv", serie.id, !isFavorite).then(() => setIsFavorite(!isFavorite));
-    };
-
-    const toggleWatchList = () => {
-        setWatchlist(session.sessionId, "tv", serie.id, !isWatchList).then(() => setIsWatchList(!isWatchList));
-    };
 
     return (
         <View style={{ width: 300 }}>
             <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('SerieScreen', { serieId: serie.id, seriePosterPath:serie.poster_path })}>
                 <Image source={{ uri: serieBaseUrl + serie.poster_path }} style={styles.image} resizeMode="cover" />
-                {session.sessionId !== "" && !isFeatured &&
-                    <>
-                        <View style={[styles.floatingIcon, styles.leftIcon]}>
-                            <TouchableOpacity onPress={toggleFavorite}>
-                                <Icon name={isFavorite ? 'heart' : 'heart-outline'} color={isFavorite ? 'red' : undefined} size={30} />
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={[styles.floatingIcon, styles.rightIcon]}>
-                            <TouchableOpacity onPress={toggleWatchList}>
-                                <Icon name={isWatchList ? 'check' : 'plus'} size={30} />
-                            </TouchableOpacity>
-                        </View>
-                    </>
-                }
-
+            
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{serie.name}</Text>
                     <Icon name="chevron-right" size={30} color="#333" />
