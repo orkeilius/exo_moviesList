@@ -34,15 +34,24 @@ export async function getFeaturedMovie() {
 
 }
 
-export async function getSearchMovies(query) {
-    const response = await api.get(`/3/search/movie?query=${query}`, {
-        ...defaultHeaders,
-        params: {
-            query
-        },
-    }
-    );
-    return response.data;
+export async function getSearch(query: string) {
+    const [movieResponse, tvResponse] = await Promise.all([
+        api.get('/3/search/movie', {
+            ...defaultHeaders,
+            params: { query },
+        }),
+        api.get('/3/search/tv', {
+            ...defaultHeaders,
+            params: { query },
+        }),
+    ]);
+
+
+
+    return {
+        movies: movieResponse.data,
+        tvShows: tvResponse.data,
+    };
 }
 
 
