@@ -23,8 +23,6 @@ export default function SearchScreen() {
             })
     }, [search]);
 
-    console.log("movie", movies);
-    console.log("tv", tvShows);
 
     function clearSearch() {
         setSearch("");
